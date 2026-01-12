@@ -6,15 +6,21 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
 
+  ssr: false,
+
   devtools: {
     enabled: true
   },
 
   css: ['~/assets/css/main.css'],
 
-  ssr: false,
-
   compatibilityDate: '2025-01-15',
+
+  nitro: {
+    output: {
+      dir: '.output-nuxt'
+    }
+  },
 
   eslint: {
     config: {

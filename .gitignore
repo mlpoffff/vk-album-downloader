@@ -1,10 +1,13 @@
 # Nuxt dev/build outputs
-.output
+.output-nuxt
 .data
 .nuxt
 .nitro
 .cache
 dist
+
+# Express dev/build outputs
+.output-express
 
 # Node dependencies
 node_modules

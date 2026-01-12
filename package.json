@@ -3,9 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "run-p build:server build:client",
+    "build:server": "tsc -p express/tsconfig.json && mv ./.output-express/index.js ./.output-express/index.cjs",
+    "build:client": "nuxt build",
     "dev": "run-p dev:server dev:client",
-    "dev:server": "node express.ts",
+    "dev:server": "node ./express/index.ts",
     "dev:client": "nuxt dev",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
