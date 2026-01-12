@@ -23,6 +23,12 @@
         :album="album"
       />
     </div>
+    <div
+      v-else
+      class=""
+    >
+      <p>Нет доступных альбомов</p>
+    </div>
   </div>
 </template>
 
