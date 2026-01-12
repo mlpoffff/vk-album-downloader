@@ -1,6 +1,11 @@
 <template>
   <div class="flex flex-col gap-6">
-    <Auth />
+    <UCard>
+      <Auth />
+    </UCard>
+    <UCard>
+      <Albums />
+    </UCard>
   </div>
 </template>
 

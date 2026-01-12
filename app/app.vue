@@ -11,12 +11,10 @@ useHead({
   }
 })
 
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
+const title = 'Скачать альбом ВК'
 
 useSeoMeta({
-  title,
-  description
+  title
 })
 </script>
 
@@ -63,7 +61,7 @@ useSeoMeta({
     <UFooter>
       <template #left>
         <p class="text-sm text-muted">
-          Сделано с ❤️
+          Сделано спустя рукава
         </p>
       </template>
 

@@ -3,7 +3,7 @@
     v-model="value"
     placeholder="Вставьте ссылку"
     type="password"
-    @update:model-value="authStore.setAuth(value)"
+    @update:model-value="updateData"
   />
 </template>
 
@@ -11,5 +11,14 @@
 import { useAuthStore } from '~/stores/auth'
 
 const value = ref('')
+
 const authStore = useAuthStore()
+const albumStore = useAlbumsStore()
+
+const updateData = () => {
+  authStore.setAuth(value.value)
+  if (authStore.id !== null && authStore.token !== null){
+    albumStore.getAlbums()
+  }
+}
 </script>
