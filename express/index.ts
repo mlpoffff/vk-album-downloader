@@ -25,6 +25,7 @@ app.post('/api/vk/albums', async (req, res) => {
         owner_id,
         need_system: 1,
         photo_sizes: 1,
+        need_covers: 1,
         v: '5.131',
         access_token
       }

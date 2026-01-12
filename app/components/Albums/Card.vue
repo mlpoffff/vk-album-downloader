@@ -40,7 +40,6 @@ const props = defineProps<{
 
 const cover = computed(() => {
   const lastSize = props.album.sizes?.[props.album.sizes.length - 1]
-  console.error(lastSize)
   return lastSize?.src ?? ''
 })
 </script>
