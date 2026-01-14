@@ -2,13 +2,8 @@ import {app, BrowserWindow, shell} from 'electron'
 import { spawn } from 'child_process'
 import http from 'node:http'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 let nuxtProcess
-let nuxtServerPath
 
 function waitForServer(url, timeout = 10000, interval = 100) {
   return new Promise((resolve, reject) => {
@@ -57,16 +52,7 @@ function createWindow() {
     }
   })
 
-  if (app.isPackaged) {
-    // nuxtServerPath = path.join(__dirname, '..', 'Resources', '.output', 'server', 'index.mjs')
-    nuxtServerPath = path.join(process.resourcesPath, 'app', '.output', 'server', 'index.mjs')
-    console.error('Packaged!')
-    console.error(nuxtProcess)
-  } else {
-    nuxtServerPath = path.join(process.cwd(), '.output', 'server', 'index.mjs')
-    console.error('Packaged!')
-    console.error(nuxtProcess)
-  }
+  const nuxtServerPath = path.join(process.resourcesPath, '.output', 'server', 'index.mjs')
 
   nuxtProcess = spawn('node', [nuxtServerPath], { shell: true, stdio: 'inherit' })
 

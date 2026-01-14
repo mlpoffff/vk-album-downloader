@@ -6,7 +6,32 @@
   "version": "0.0.1",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev"
+    "dev": "nuxt dev",
+    "build:electron": "npm run build && electron-builder --mac --arm64"
+  },
+  "build": {
+    "appId": "com.mlpoffff.vkalbum",
+    "productName": "VKAlbumDownloader",
+    "executableName": "VKAlbumDownloader",
+    "asar": false,
+    "files": [
+      "index.js",
+      ".output/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "logo/logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "VKAlbumDownloader"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "logo/logo.icns",
+      "category": "public.app-category.productivity"
+    }
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.82",
@@ -26,6 +51,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.6",
     "electron": "^39.2.7",
+    "electron-builder": "^26.4.0",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.1"
