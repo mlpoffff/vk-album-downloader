@@ -10,6 +10,7 @@
     "build": "nuxt build",
     "build:electron": "npm run build && electron-builder --config electron-builder.yml",
     "dev": "nuxt dev",
+    "dev:electron": "electron .",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -21,7 +22,8 @@
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "get-port": "^7.1.0",
-    "nuxt": "^4.2.2"
+    "nuxt": "^4.2.2",
+    "wait-on": "^9.0.3"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.12.1",

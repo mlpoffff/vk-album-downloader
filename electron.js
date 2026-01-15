@@ -1,52 +1,31 @@
 import { app, BrowserWindow, shell, utilityProcess } from 'electron'
 import path from 'node:path'
-import http from 'node:http'
+import waitOn from 'wait-on'
 import getPort from 'get-port'
+import { spawn } from 'node:child_process'
 
 let nuxtProcess
 let nuxtServerPath
 
-function waitForServer(
-  url,
-  {
-    timeout = 15000,
-    interval = 200
-  } = {}
-) {
-  return new Promise((resolve, reject) => {
-    const start = Date.now()
-
-    const check = () => {
-      const req = http.get(url, res => {
-        res.resume()
-        resolve(true)
-      })
-
-      req.on('error', () => {
-        if (Date.now() - start > timeout) {
-          reject(new Error('Timeout waiting for Nuxt server'))
-        } else {
-          setTimeout(check, interval)
-        }
-      })
-    }
-
-    check()
-  })
-}
-
-function createWindow(port) {
+async function createWindow(port) {
   if (app.isPackaged) {
     nuxtServerPath = path.join(process.resourcesPath, 'app', '.output', 'server', 'index.mjs')
+    nuxtProcess = utilityProcess.fork(nuxtServerPath, [], {
+      env: {
+        PORT: `${port}`
+      }
+    })
   } else {
-    nuxtServerPath = path.join(process.cwd(), '.output', 'server', 'index.mjs')
+    nuxtProcess = spawn('npm', ['run', 'dev'], {
+      env: {
+        ...process.env,
+        PORT: String(port)
+      },
+      stdio: 'inherit'
+    })
   }
 
-  nuxtProcess = utilityProcess.fork(nuxtServerPath, [], {
-    env: {
-      PORT: `${port}`
-    }
-  })
+  await waitOn({ resources: [`http://localhost:${port}`] })
 
   const win = new BrowserWindow({
     width: 1200,
@@ -56,6 +35,8 @@ function createWindow(port) {
       nodeIntegration: false
     }
   })
+
+  win.loadURL(`http://localhost:${port}`)
 
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('http')) {
@@ -72,14 +53,6 @@ function createWindow(port) {
     }
   })
 
-  waitForServer(`http://localhost:${port}`)
-    .then(() => {
-      win.loadURL(`http://localhost:${port}`)
-    })
-    .catch(err => {
-      console.error(err)
-    })
-
   if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: 'detach' })
   }
@@ -89,8 +62,6 @@ function createWindow(port) {
     nuxtProcess = null
   })
 }
-
-app.commandLine.appendSwitch('lang', 'ru')
 
 app.on('ready', async () => {
   const port = await getPort()
