@@ -1,34 +1,53 @@
-import {app, BrowserWindow, shell} from 'electron'
-import { spawn } from 'child_process'
-import http from 'node:http'
+import { app, BrowserWindow, shell, utilityProcess } from 'electron'
 import path from 'node:path'
+import http from 'node:http'
+import getPort from 'get-port'
 
 let nuxtProcess
 let nuxtServerPath
 
-function waitForServer(url, timeout = 10000, interval = 100) {
+function waitForServer(
+  url,
+  {
+    timeout = 15000,
+    interval = 200
+  } = {}
+) {
   return new Promise((resolve, reject) => {
     const start = Date.now()
 
     const check = () => {
-      const req = http.request(url, (res) => {
+      const req = http.get(url, res => {
+        res.resume()
         resolve(true)
       })
+
       req.on('error', () => {
         if (Date.now() - start > timeout) {
-          reject(new Error('Timeout waiting for server'))
+          reject(new Error('Timeout waiting for Nuxt server'))
         } else {
           setTimeout(check, interval)
         }
       })
-      req.end()
     }
 
     check()
   })
 }
 
-function createWindow() {
+function createWindow(port) {
+  if (app.isPackaged) {
+    nuxtServerPath = path.join(process.resourcesPath, 'app', '.output', 'server', 'index.mjs')
+  } else {
+    nuxtServerPath = path.join(process.cwd(), '.output', 'server', 'index.mjs')
+  }
+
+  nuxtProcess = utilityProcess.fork(nuxtServerPath, [], {
+    env: {
+      PORT: `${port}`
+    }
+  })
+
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -53,22 +72,13 @@ function createWindow() {
     }
   })
 
-  if (app.isPackaged) {
-    nuxtServerPath = path.join(process.resourcesPath, 'app', '.output', 'server', 'index.mjs')
-  } else {
-    nuxtServerPath = path.join(process.cwd(), '.output', 'server', 'index.mjs')
-  }
-
-  nuxtProcess = spawn('node', [nuxtServerPath], {
-    windowsHide: true,
-    stdio: 'ignore'
-  })
-
-  waitForServer('http://localhost:3000', 10000)
+  waitForServer(`http://localhost:${port}`)
     .then(() => {
-      win.loadURL('http://localhost:3000')
+      win.loadURL(`http://localhost:${port}`)
     })
-    .catch(err => console.error('Server did not start in time:', err))
+    .catch(err => {
+      console.error(err)
+    })
 
   if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: 'detach' })
@@ -80,10 +90,17 @@ function createWindow() {
   })
 }
 
-app.whenReady().then(() => {
-  createWindow()
+app.commandLine.appendSwitch('lang', 'ru')
+
+app.on('ready', async () => {
+  const port = await getPort()
+  createWindow(port)
 })
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('before-quit', () => {
+  nuxtProcess?.kill()
 })

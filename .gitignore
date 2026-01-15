@@ -4,13 +4,13 @@
 .nuxt
 .nitro
 .cache
+dist
 
 # Node dependencies
 node_modules
 
-# Electron
-out
-dist
+# Electron dev/build outputs
+.builds
 
 # Logs
 logs

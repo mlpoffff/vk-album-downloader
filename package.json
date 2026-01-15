@@ -1,39 +1,16 @@
 {
   "name": "vk-album-downloader",
-  "private": true,
   "type": "module",
-  "main": "index.js",
+  "main": "electron.js",
   "version": "0.0.1",
-  "description": "VK album downloader",
   "author": "mlpoffff",
+  "description": "Загрузчик альбомов фотографий ВК",
+  "private": true,
   "scripts": {
     "build": "nuxt build",
+    "build:electron": "npm run build && electron-builder --config electron-builder.yml",
     "dev": "nuxt dev",
-    "build:electron": "npm run build && electron-builder"
-  },
-  "build": {
-    "appId": "com.mlpoffff.vkalbum",
-    "productName": "VKAlbum",
-    "executableName": "VKAlbum",
-    "asar": false,
-    "files": [
-      "index.js",
-      ".output/**"
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "logo/logo.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "shortcutName": "VKAlbum"
-    },
-    "mac": {
-      "target": "dmg",
-      "icon": "logo/logo.icns",
-      "category": "public.app-category.productivity"
-    }
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.82",
@@ -43,6 +20,7 @@
     "canvas-confetti": "^1.9.4",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "get-port": "^7.1.0",
     "nuxt": "^4.2.2"
   },
   "devDependencies": {
