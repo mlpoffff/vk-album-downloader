@@ -10,17 +10,11 @@ useHead({
     lang: 'ru'
   }
 })
-
-const title = 'Скачать альбом ВК'
-
-useSeoMeta({
-  title
-})
 </script>
 
 <template>
   <UApp>
-    <UHeader>
+    <UHeader :toggle="false">
       <template #left>
         <NuxtLink
           to="/"

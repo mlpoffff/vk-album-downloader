@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
 
+  app: {
+    head: {
+      title: 'Скачать альбом ВК'
+    }
+  },
+
   ssr: false,
 
   devtools: {
@@ -28,12 +34,6 @@ export default defineNuxtConfig({
         commaDangle: 'never',
         braceStyle: '1tbs'
       }
-    }
-  },
-
-  runtimeConfig: {
-    public: {
-      backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL || 'http://localhost:3001/'
     }
   }
 })
