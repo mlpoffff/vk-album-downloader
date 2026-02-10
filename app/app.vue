@@ -29,8 +29,6 @@ useHead({
       </template>
 
       <template #right>
-        <UColorModeButton />
-
         <UButton
           to="https://github.com/maxletsplay1/vk-album-downloader"
           target="_blank"
