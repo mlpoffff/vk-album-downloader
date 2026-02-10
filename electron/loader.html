@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Starting app...</title>
+</head>
+<style>
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid;
+        border-color: #50a2ff transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    .main{
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #18181b;
+    }
+    body{
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<body>
+<div class="main">
+<span class="loader"></span>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+appId: com.author.project-name
+productName: project-name
+executableName: project-name
+
+files:
+  - electron/**
+  - "!electron/build_assets/**"
+  - .output/**
+  - .env
+  - "!node_modules"
+  - "!node_modules/**/*"
+
+asar: true
+asarUnpack:
+  - .output/**
+  - "!node_modules"
+  - "!node_modules/**/*"
+
+win:
+  icon: electron/build_assets/logo.ico
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: project-name
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  installerSidebar: electron/build_assets/sidebar.bmp
+  uninstallerSidebar: electron/build_assets/sidebar.bmp
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  icon: electron/build_assets/logo.icns
+  category: public.app-category.productivity
+
+dmg:
+  background: electron/build_assets/installer.tiff
+  icon: electron/build_assets/volume.icns
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 130
+      y: 220
+      type: file
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+directories:
+  output: .builds
