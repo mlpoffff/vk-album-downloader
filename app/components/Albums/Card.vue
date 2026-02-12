@@ -25,7 +25,7 @@
           :color="album.status == 'completed'? 'success' : 'primary'"
           class="mt-3 self-start"
           :loading="album.status === 'loading'"
-          @click="albumsStore.getPhotos(album.id, album.size, album.title)"
+          @click="albumsStore.getPhotos(album.id, album.size, album.title, category, url)"
         >
           {{ album.status == 'completed'? 'Альбом скачан' : 'Скачать альбом' }}
         </UButton>
@@ -43,7 +43,7 @@
             class="shrink-0 h-fit mt-1"
             label="Отмена"
             color="error"
-            @click="albumsStore.stopDownloading(album.id)"
+            @click="albumsStore.stopDownloading(album.id, category)"
           />
         </div>
       </div>
@@ -67,6 +67,8 @@ interface Album {
 
 const props = defineProps<{
   album: Album
+  category: string
+  url: string
 }>()
 
 const albumsStore = useAlbumsStore()

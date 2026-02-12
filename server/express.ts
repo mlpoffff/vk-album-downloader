@@ -37,6 +37,41 @@ export function createExpressApp() {
     }
   })
 
+  app.post('/vk/id', async (req, res) => {
+    const { ids, access_token } = req.body
+
+    if (!ids || !access_token) {
+      return res.status(400).json({ error: 'id and access_token required' })
+    }
+
+    let result = null
+
+    try {
+      try {
+        const { data } = await axios.get('https://api.vk.com/method/users.get', {
+          params: { user_ids: ids, v: '5.199', access_token }
+        })
+
+        if (data.response && data.response.length) {
+          result = data.response[0].id
+        } else {
+          throw new Error('Empty users')
+        }
+      } catch (e) {
+        const { data } = await axios.get('https://api.vk.com/method/groups.getById', {
+          params: { group_ids: ids, v: '5.199', access_token }
+        })
+
+        result = '-' + data.response.groups[0].id
+      }
+
+      res.json(result)
+    } catch (err: any) {
+      console.error(err.response?.data || err.message)
+      res.status(500).json({ error: 'VK API request failed' })
+    }
+  })
+
   app.post('/vk/photos', async (req, res) => {
     const { owner_id, access_token, album_id, album_size } = req.body
 
@@ -90,15 +125,27 @@ export function createExpressApp() {
       })
     }
 
+    function sanitizePathName(name: string) {
+      return name
+        .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        .trim()
+        .replace(/[. ]+$/, '')
+        .replace(/\s+/g, ' ')
+    }
+
     try {
       const downloadsDir = path.join(os.homedir(), 'Downloads')
-      const destFolder = path.join(downloadsDir, 'vk_albums', folder)
+
+      const safeFolder = sanitizePathName(folder)
+      const destFolder = path.join(downloadsDir, 'vk_albums', safeFolder)
 
       if (!fs.existsSync(destFolder)) {
         fs.mkdirSync(destFolder, { recursive: true })
       }
 
-      const filePath = path.join(destFolder, `${id}.jpg`)
+      const safeFileName = sanitizePathName(`${id}.jpg`)
+      const filePath = path.join(destFolder, safeFileName)
 
       const response = await axios.get(url, {
         responseType: 'arraybuffer'
@@ -115,10 +162,6 @@ export function createExpressApp() {
         message: err.message
       })
     }
-  })
-
-  app.get('/test', (_, res) => {
-    res.json({ ok: true })
   })
 
   return app
