@@ -1,5 +1,8 @@
 <template>
-  <UTabs :items="items">
+  <UTabs
+    :items="items"
+    :unmount-on-hide="false"
+  >
     <template #my>
       <CardBlock
         category="my"

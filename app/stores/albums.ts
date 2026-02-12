@@ -83,7 +83,12 @@ export const useAlbumsStore = defineStore('albums', {
           forceStopped: false
         }))
 
-        this.albums[category] = albums
+        const current = this.albums[category] ?? []
+
+        this.albums[category] = [
+          ...current.filter(item => item.status === 'downloading'),
+          ...albums
+        ]
       } catch (err) {
         console.error(err)
         this.toast.addError(
