@@ -2,7 +2,7 @@
   "name": "vk-album-downloader",
   "type": "module",
   "main": "electron/electron.js",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "mlpoffff",
   "description": "Загрузчик альбомов фотографий ВК",
   "private": true,

@@ -36,6 +36,7 @@
 3. Команды:
   * `npm install` - установка зависимостей
   * `npm run dev` - запуск дев сервера
+  * `npm run dev:electron` - запуск дев сервера с electron-приложением
   * `npm run build` - собирает nuxt 
   * `npm run build:electron` - собирает electron-приложение вместе с nuxt
 
