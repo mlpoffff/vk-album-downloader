@@ -1,20 +1,16 @@
-appId: com.author.project-name
-productName: project-name
-executableName: project-name
+appId: com.mlpoffff.vkalbum
+productName: VKAlbum
+executableName: VKAlbum
 
 files:
   - electron/**
   - "!electron/build_assets/**"
   - .output/**
   - .env
-  - "!node_modules"
-  - "!node_modules/**/*"
 
 asar: true
 asarUnpack:
   - .output/**
-  - "!node_modules"
-  - "!node_modules/**/*"
 
 win:
   icon: electron/build_assets/logo.ico
@@ -22,7 +18,7 @@ win:
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
-  shortcutName: project-name
+  shortcutName: VKAlbum
   createDesktopShortcut: true
   createStartMenuShortcut: true
   installerSidebar: electron/build_assets/sidebar.bmp
