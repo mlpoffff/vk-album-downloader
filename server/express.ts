@@ -87,20 +87,37 @@ export function createExpressApp() {
 
     try {
       while (offset < album_size) {
-        const response = await axios.get(
-          'https://api.vk.com/method/photos.get',
-          {
-            params: {
-              owner_id,
-              album_id,
-              photo_sizes: 1,
-              count: Math.min(limit, album_size - offset),
-              offset,
-              access_token,
-              v: '5.199'
+        let response
+        if (album_id !== -9000){
+          response = await axios.get(
+            'https://api.vk.com/method/photos.get',
+            {
+              params: {
+                owner_id,
+                album_id,
+                photo_sizes: 1,
+                count: Math.min(limit, album_size - offset),
+                offset,
+                access_token,
+                v: '5.199'
+              }
             }
-          }
-        )
+          )
+        } else {
+          response = await axios.get(
+            'https://api.vk.com/method/photos.getUserPhotos',
+            {
+              params: {
+                user_id: owner_id,
+                photo_sizes: 1,
+                count: Math.min(limit, album_size - offset),
+                offset,
+                access_token,
+                v: '5.199'
+              }
+            }
+          )
+        }
 
         const items = response.data.response.items
         allPhotos.push(...items)

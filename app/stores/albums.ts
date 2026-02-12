@@ -73,10 +73,6 @@ export const useAlbumsStore = defineStore('albums', {
           )
         }
 
-        albums.response.items = albums.response.items.filter(
-          item => item.id !== -9000
-        )
-
         albums = albums.response.items.map(item => ({
           id: item.id,
           size: item.size,
