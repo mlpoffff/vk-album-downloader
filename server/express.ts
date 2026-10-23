@@ -8,7 +8,7 @@ export function createExpressApp() {
   const app = express()
 
   app.use(express.json())
-
+  const baseUrl = 'https://api.vk.ru/method'
   app.post('/vk/albums', async (req, res) => {
     const { owner_id, access_token } = req.body
     if (!owner_id || !access_token) {
@@ -17,7 +17,7 @@ export function createExpressApp() {
 
     try {
       const response = await axios.get(
-        'https://api.vk.com/method/photos.getAlbums',
+        `${baseUrl}/photos.getAlbums`,
         {
           params: {
             owner_id,
@@ -48,7 +48,7 @@ export function createExpressApp() {
 
     try {
       try {
-        const { data } = await axios.get('https://api.vk.com/method/users.get', {
+        const { data } = await axios.get(`${baseUrl}/users.get`, {
           params: { user_ids: ids, v: '5.199', access_token }
         })
 
@@ -58,7 +58,7 @@ export function createExpressApp() {
           throw new Error('Empty users')
         }
       } catch (e) {
-        const { data } = await axios.get('https://api.vk.com/method/groups.getById', {
+        const { data } = await axios.get(`${baseUrl}/groups.getById`, {
           params: { group_ids: ids, v: '5.199', access_token }
         })
 
@@ -88,9 +88,9 @@ export function createExpressApp() {
     try {
       while (offset < album_size) {
         let response
-        if (album_id !== -9000){
+        if (album_id !== -9000) {
           response = await axios.get(
-            'https://api.vk.com/method/photos.get',
+            `${baseUrl}/photos.get`,
             {
               params: {
                 owner_id,
@@ -105,7 +105,7 @@ export function createExpressApp() {
           )
         } else {
           response = await axios.get(
-            'https://api.vk.com/method/photos.getUserPhotos',
+            `${baseUrl}/photos.getUserPhotos`,
             {
               params: {
                 user_id: owner_id,

@@ -8,11 +8,12 @@
 const authVkCom = (): void => {
   const appId: number = 6287487
   const scope: number = 1073737727
+  const baseURL: string = 'https://oauth.vk.ru'
 
-  const url: string = 'https://oauth.vk.com/authorize'
+  const url: string = `${baseURL}/authorize`
     + '?client_id=' + appId
     + '&scope=' + scope
-    + '&redirect_uri=https://oauth.vk.com/blank.html'
+    + `&redirect_uri=${baseURL}/blank.html`
     + '&display=page'
     + '&response_type=token'
     + '&revoke=1'

@@ -4,7 +4,7 @@
 
 
 ## ⚠️ Важная информация ⚠️
-### **Приложение использует ваш [токен авторизации](https://id.vk.com/about/business/go/docs/ru/vkid/latest/vk-id/connection/tokens/access-token#Kak-poluchit-token) в качестве доступа к API VK. Не передавайте его никому, в целях безопасности.**
+### **Приложение использует ваш [токен авторизации](https://id.vk.ru/about/business/go/docs/ru/vkid/latest/vk-id/connection/tokens/access-token#Kak-poluchit-token) в качестве доступа к API VK. Не передавайте его никому, в целях безопасности.**
 ### При скачивании файлов не включайте\выключайте VPN, так как токен VK выдается под конкретный IP.
 
 

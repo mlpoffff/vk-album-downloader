@@ -1,5 +1,5 @@
 export const extractVkId = (url: string): string => {
-  const cleaned = url.replace(/^https?:\/\/(www\.)?vk\.com\//, '')
+  const cleaned = url.replace(/^https?:\/\/(www\.)?vk\.(com|ru)\//, '')
   return cleaned.replace(/\/$/, '')
 }
 export const extractVkIdFromAlbum = (url: string) => {
