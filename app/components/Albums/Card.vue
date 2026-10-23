@@ -1,17 +1,33 @@
 <template>
   <UCard
     :id="'album-card'+album.id"
-    class="flex gap-4"
+    class="w-full"
+    :ui="{ body: 'w-full' }"
   >
-    <img
-      :src="album.cover"
-      alt="Обложка альбома"
-      class="w-full aspect-[4/3] flex-shrink-0 rounded-lg object-cover"
-    >
+    <div class="flex w-full max-w-full aspect-4/3 shrink-0 overflow-hidden rounded-lg">
+      <img
+        v-if="hasCover"
+        :src="album.cover"
+        alt="Обложка альбома"
+        class="size-full object-cover"
+        @error="imageLoadFailed = true"
+      >
+      <div
+        v-else
+        class="flex size-full items-center justify-center bg-gray-100 text-gray-400"
+        role="img"
+        aria-label="Обложка альбома недоступна"
+      >
+        <Icon
+          name="i-lucide-image-off"
+          size="40"
+        />
+      </div>
+    </div>
 
-    <div class="flex flex-1 flex-col justify-between">
+    <div class="flex min-w-0 flex-1 flex-col justify-between">
       <div>
-        <h3 class="text-base font-semibold">
+        <h3 class="wrap-break-word text-base font-semibold">
           {{ album.title }}
         </h3>
         <p class="mt-1 text-sm text-gray-500">
@@ -72,6 +88,19 @@ const props = defineProps<{
 }>()
 
 const albumsStore = useAlbumsStore()
+const imageLoadFailed = shallowRef(false)
+const hasCover = computed(() => {
+  return Boolean(props.album.cover)
+    && !props.album.cover.includes('x_noalbum_2x.png')
+    && !imageLoadFailed.value
+})
+
+watch(
+  () => props.album.cover,
+  () => {
+    imageLoadFailed.value = false
+  }
+)
 
 watch(
   () => props.album.status,
