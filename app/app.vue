@@ -66,7 +66,7 @@ useHead({
 
         <template #right>
           <UButton
-            to="https://github.com/maxletsplay1/vk-album-downloader"
+            to="https://github.com/mlpoffff/vk-album-downloader"
             target="_blank"
             icon="i-simple-icons-github"
             aria-label="GitHub"

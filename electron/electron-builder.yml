@@ -6,11 +6,18 @@ files:
   - electron/**
   - "!electron/build_assets/**"
   - .output/**
+  - "!**/*.map"
   - .env
 
 asar: true
 asarUnpack:
   - .output/**
+
+compression: maximum
+
+electronLanguages:
+  - ru
+  - en-US
 
 win:
   icon: electron/build_assets/logo.ico
