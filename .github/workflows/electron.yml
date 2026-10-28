@@ -1,0 +1,111 @@
+name: Electron build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: electron-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - windows-2022
+          - macos-14
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create environment file
+        run: cp .env.example .env
+
+      - name: Build Electron application
+        run: npm run build:electron -- --publish never
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: electron-${{ matrix.os }}
+          path: .builds/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+
+  release:
+    name: Create GitHub Release
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository and tags
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Find release tag
+        id: release_tag
+        shell: bash
+        run: |
+          tag="$(git tag --points-at "$GITHUB_SHA" | grep '^v' | head -n 1 || true)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if [ -n "$tag" ]; then
+            echo "Release tag found: $tag"
+          else
+            echo "No v* tag found for commit $GITHUB_SHA; release will be skipped."
+          fi
+
+      - name: Download build artifacts
+        if: steps.release_tag.outputs.tag != ''
+        uses: actions/download-artifact@v7
+        with:
+          path: release-assets
+          pattern: electron-*
+          merge-multiple: true
+
+      - name: Create release
+        if: steps.release_tag.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.release_tag.outputs.tag }}
+        run: |
+          if gh release view "$TAG_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists; continuing with asset upload."
+          else
+            gh release create "$TAG_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes
+          fi
+
+      - name: Upload release assets
+        if: steps.release_tag.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.release_tag.outputs.tag }}
+        run: |
+          find release-assets -maxdepth 1 -type f \
+            \( -name '*.dmg' -o -name '*.exe' -o -name '*.AppImage' \
+            -o -name '*.deb' -o -name '*.rpm' -o -name '*.tar.gz' \) \
+            -print0 \
+            | xargs -0 -r gh release upload "$TAG_NAME" --repo "$GITHUB_REPOSITORY" --clobber
