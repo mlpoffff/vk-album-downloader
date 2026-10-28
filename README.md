@@ -13,6 +13,9 @@
 
 ## 📲 Инструкция по установке
 ### 1. Скачать и установить версию для вашей ос https://github.com/mlpoffff/vk-album-downloader/releases/latest
+### - .dmg - MacOS ([возможна ошибка при установке](https://itdomaster.ru/prilozhenie-povrezhdeno-i-ne-mozhet-byt-otkryto-peremestite-prilozhenie-v-korzinu/))
+### - .exe - Windows
+### - Остальное - Linux
 ### 2. Открыть установленное приложение
 
 
