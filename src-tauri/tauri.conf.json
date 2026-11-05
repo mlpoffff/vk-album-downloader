@@ -39,7 +39,7 @@
 		"devUrl": "http://localhost:3000"
 	},
 	"productName": "VKAlbum",
-	"version": "2.1.2",
+	"version": "3.0.0",
 	"identifier": "com.mlpoffff.vkalbum",
 	"plugins": {},
 	"app": {
