@@ -11,6 +11,7 @@
 		"core:webview:allow-create-webview-window",
 		"shell:allow-open",
 		"opener:default",
+		"dialog:default",
 		"notification:default",
 		"os:default",
 		"fs:allow-document-read",

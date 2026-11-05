@@ -39,7 +39,7 @@
 					v-if="album.status !== 'downloading'"
 					:icon="album.status === 'completed' ? 'i-lucide-check' : 'i-lucide-download'"
 					:color="album.status === 'completed' ? 'success' : 'primary'"
-					class="mt-3 self-start"
+					class="mt-3 self-start cursor-pointer"
 					:loading="album.status === 'loading'"
 					@click="albumsStore.getPhotos(album.id, album.size, album.title, category, url)"
 				>
@@ -56,7 +56,7 @@
 						:max="album.size"
 					/>
 					<UButton
-						class="shrink-0 h-fit mt-1"
+						class="shrink-0 h-fit mt-1 cursor-pointer"
 						label="Отмена"
 						color="error"
 						@click="albumsStore.stopDownloading(album.id, category)"

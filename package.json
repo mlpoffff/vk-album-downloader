@@ -22,6 +22,9 @@
 		"tauri:build": "tauri build",
 		"tauri:build:debug": "tauri build --debug"
 	},
+	"dependencies": {
+		"@tauri-apps/plugin-dialog": "^2.8.4"
+	},
 	"devDependencies": {
 		"@antfu/eslint-config": "^9.5.1",
 		"@iconify-json/lucide": "^1.2.137",

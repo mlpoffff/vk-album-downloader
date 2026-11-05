@@ -14,6 +14,7 @@ export interface VkDownloadRequest {
 	id: number
 	url: string
 	folder: string
+	baseFolder: string
 }
 
 export interface VkAlbum {

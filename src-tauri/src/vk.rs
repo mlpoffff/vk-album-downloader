@@ -183,25 +183,36 @@ fn sanitize_path_name(name: &str) -> String {
         .to_string()
 }
 
-fn download_directory(folder: &str) -> Result<PathBuf, String> {
+fn download_directory(folder: &str, base_folder: &str) -> Result<PathBuf, String> {
     let safe_folder = sanitize_path_name(folder);
     if safe_folder.is_empty() || safe_folder == "." || safe_folder == ".." {
         return Err("Folder name is empty or invalid".to_string());
     }
 
-    let downloads =
-        dirs::download_dir().ok_or_else(|| "Downloads directory is unavailable".to_string())?;
-    Ok(downloads.join("vk_albums").join(safe_folder))
+    let base = if base_folder.trim().is_empty() {
+        let downloads = dirs::download_dir()
+            .ok_or_else(|| "Downloads directory is unavailable".to_string())?;
+        downloads.join("vk_albums")
+    } else {
+        PathBuf::from(base_folder)
+    };
+
+    Ok(base.join(safe_folder))
 }
 
 #[tauri::command]
-pub async fn vk_download(id: i64, url: String, folder: String) -> Result<DownloadResponse, String> {
+pub async fn vk_download(
+    id: i64,
+    url: String,
+    folder: String,
+    base_folder: String,
+) -> Result<DownloadResponse, String> {
     let parsed_url = Url::parse(&url).map_err(|error| format!("Invalid photo URL: {error}"))?;
     if !matches!(parsed_url.scheme(), "http" | "https") {
         return Err("Only HTTP and HTTPS photo URLs are allowed".to_string());
     }
 
-    let destination = download_directory(&folder)?;
+    let destination = download_directory(&folder, &base_folder)?;
     fs::create_dir_all(&destination)
         .map_err(|error| format!("Cannot create download directory: {error}"))?;
     let file_path = destination.join(format!("{id}.jpg"));

@@ -1,5 +1,6 @@
 import type { Album, AlbumsState, DownloadPhoto } from "~/types/albums";
 import { defineStore } from "pinia";
+import { useDownloadDirectory } from "~/composables/downloadDirectory";
 import { vkApi } from "~/composables/vkApi";
 import { useToastStore } from "~/stores/Toast";
 
@@ -118,6 +119,7 @@ export const useAlbumsStore = defineStore("albums", {
 		): Promise<void> {
 			const album = this.albums[category]?.find((item) => item.id === albumId);
 			if (!album) return;
+			const downloadDirectory = useDownloadDirectory().value;
 
 			for (const photo of photos) {
 				try {
@@ -125,7 +127,12 @@ export const useAlbumsStore = defineStore("albums", {
 						album.forceStopped = false;
 						return;
 					}
-					await vkApi.download({ id: photo.id, url: photo.src, folder: albumName });
+					await vkApi.download({
+						id: photo.id,
+						url: photo.src,
+						folder: albumName,
+						baseFolder: downloadDirectory
+					});
 				} catch (error) {
 					console.error("Ошибка скачивания фото:", error);
 					this.toast.addWarning("Ошибка скачивания", `Файл ${photo.id}.jpg не был скачан`);

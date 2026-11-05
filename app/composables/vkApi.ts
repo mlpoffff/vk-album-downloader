@@ -23,9 +23,10 @@ export const vkApi = {
 		albumId,
 		albumSize
 	}),
-	download: ({ id, url, folder }: VkDownloadRequest) => invoke<VkDownloadResponse>("vk_download", {
+	download: ({ id, url, folder, baseFolder }: VkDownloadRequest) => invoke<VkDownloadResponse>("vk_download", {
 		id,
 		url,
-		folder
+		folder,
+		baseFolder
 	})
 };
