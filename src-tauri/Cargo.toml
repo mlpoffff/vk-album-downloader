@@ -1,0 +1,39 @@
+[package]
+name = "vkalbum"
+version = "2.1.2"
+description = "Приложение для скачивания альбомов фотографий из Вконтакте"
+authors = ["mlp_offff"]
+license = "MIT"
+repository = "https://github.com/mlpoffff/vk-album-downloader"
+edition = "2024"
+rust-version = "1.90"
+
+[lib]
+name = "vkalbum_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7.3", features = [] }
+
+[dependencies]
+dirs = "6.0.0"
+reqwest = { version = "0.12.24", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+tauri = { version = "2.12.4", features = ["tray-icon"] }
+tauri-plugin-fs = "2.7.1"
+tauri-plugin-notification = "2.7.0"
+tauri-plugin-opener = "2.7.2"
+tauri-plugin-os = "2.4.0"
+tauri-plugin-shell = "2.5.0"
+tauri-plugin-store = "2.5.0"
+
+[profile.dev]
+incremental = true
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

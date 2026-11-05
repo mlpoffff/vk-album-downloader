@@ -1,23 +1,20 @@
-# Nuxt dev/build outputs
-.output
+node_modules
+node-compile-cache
+.DS_Store
+*.log*
 .data
 .nuxt
 .nitro
 .cache
+.output
+.llm-memory
+.pnpm-store
+.env
+.env.*
+!.env.example
+.cargo
 dist
-
-# Node dependencies
-node_modules
-
-# Electron dev/build outputs
-.builds
-
-# Logs
-logs
-*.log
-
-# Misc
-.DS_Store
-.fleet
+src-tauri/target
+.eslintcache
+tsx-*
 .idea
-vk_albums

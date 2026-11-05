@@ -1,6 +1,6 @@
 # 📸 VK Album Downloader
 
-### Приложение для автоматического скачивания альбомов фотографий из Вконтакте.
+### Приложение для скачивания альбомов фотографий из Вконтакте.
 
 
 ## ⚠️ Важная информация ⚠️
@@ -13,7 +13,10 @@
 
 ## 📲 Инструкция по установке
 ### 1. Скачать и установить версию для вашей ос https://github.com/mlpoffff/vk-album-downloader/releases/latest
-### - .dmg - MacOS ([возможна ошибка при установке](https://itdomaster.ru/prilozhenie-povrezhdeno-i-ne-mozhet-byt-otkryto-peremestite-prilozhenie-v-korzinu/))
+### - .dmg - MacOS
+> После установки приложения на MacOS перед первым запуском один раз выполните:
+>
+> ```xattr -c /Applications/VKAlbum.app```
 ### - .exe - Windows
 ### - Остальное - Linux
 ### 2. Открыть установленное приложение
@@ -32,19 +35,13 @@
 ![5 шаг.png](docs/5%20%D1%88%D0%B0%D0%B3.png)
 
 
-## 🪲 Известные баги
-* Иногда не работает с очень старыми альбомами/фотографиями
-
-
 ## 🛠️ Инструкция по установке и запуску из исходников
 1. Скачать и распаковать архив https://github.com/mlpoffff/vk-album-downloader/archive/refs/heads/main.zip
-2. Создать .env в корне проекта из .env.example
-3. Команды:
-  * `npm install` - установка зависимостей
-  * `npm run dev` - запуск дев сервера
-  * `npm run dev:electron` - запуск дев сервера с electron-приложением
-  * `npm run build` - собирает nuxt 
-  * `npm run build:electron` - собирает electron-приложение вместе с nuxt
+2. Команды:
+  * `pnpm install` - установка зависимостей
+  * `pnpm tauri:dev` - запуск дев сервера c tauri-приложением
+  * `pnpm tauri:build` - собирает tauri-приложение вместе с nuxt
+  * `pnpm tauri:build:debug` - собирает tauri-приложение вместе с nuxt в дебаг режиме
 
 
 ## ❤️ Отдельное спасибо

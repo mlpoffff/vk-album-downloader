@@ -1,0 +1,87 @@
+name: release-v2
+
+# Multi-platform desktop release: macOS, Linux and Windows.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: --target universal-apple-darwin
+          - platform: ubuntu-22.04
+            args: ""
+          - platform: ubuntu-24.04-arm
+            args: ""
+          - platform: windows-latest
+            args: ""
+          - platform: windows-11-arm
+            args: ""
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v6
+
+      # Node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Rust
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          workspaces: ./src-tauri -> target
+
+      # Linux system dependencies
+      - name: Install dependencies (ubuntu only)
+        if: startsWith(matrix.platform, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: VKAlbum ${{ github.ref_name }}
+          releaseBody: |
+            # 📝 История изменений
+            
+            ## 🚀 Новые возможности
+            - **Заголовок**
+            Описание
+
+            ## 🪲 Исправлено
+            - **Заголовок**
+            Описание
+
+            > После установки приложения на MacOS перед первым запуском один раз выполните:
+            > `xattr -c /Applications/VKAlbum.app`
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+          retryAttempts: 1
+          uploadWorkflowArtifacts: true

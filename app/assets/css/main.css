@@ -1,18 +1,51 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-@theme static {
-  --font-sans: 'Public Sans', sans-serif;
+@theme {
+	--font-heading: "Montserrat", sans-serif;
+	--font-sans: "Inter", sans-serif;
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+	--color-primary: var(--ui-color-primary-500);
+	--color-secondary: var(--ui-color-secondary-500);
+	--color-success: var(--ui-color-success-500);
+	--color-info: var(--ui-color-info-500);
+	--color-warning: var(--ui-color-warning-500);
+	--color-error: var(--ui-color-error-500)
+}
+
+@layer base {
+	html {
+		-webkit-tap-highlight-color: transparent;
+	}
+}
+
+@layer utilities {
+	img{
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+	.flex-center {
+		@apply flex justify-center items-center;
+	}
+	.absolute-center-h {
+		@apply left-1/2 transform -translate-x-1/2;
+	}
+	.absolute-center-v {
+		@apply top-1/2 transform -translate-y-1/2;
+	}
+}
+
+.page-enter-active,
+.page-leave-active {
+	@apply transition-opacity ease-in-out duration-300;
+}
+.layout-enter-active,
+.layout-leave-active {
+	@apply transition-opacity ease-in-out duration-500;
+}
+.page-enter-from,
+.page-leave-to,
+.layout-enter-from,
+.layout-leave-to {
+	@apply opacity-0;
 }
