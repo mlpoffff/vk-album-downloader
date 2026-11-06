@@ -14,12 +14,6 @@
   <a href="https://github.com/mlpoffff/vk-album-downloader/issues">Сообщить о проблеме</a>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/github/v/release/mlpoffff/vk-album-downloader?label=версия&color=1677ff" alt="Последний релиз">
-  <img src="https://img.shields.io/github/license/mlpoffff/vk-album-downloader?label=лицензия" alt="Лицензия MIT">
-  <img src="https://img.shields.io/badge/платформа-Windows%20%7C%20macOS%20%7C%20Linux-555" alt="Windows, macOS и Linux">
-</p>
-
 ![Главный экран VKAlbum](docs/Success.png)
 
 ## Возможности
