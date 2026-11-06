@@ -19,6 +19,11 @@ export const useAlbumsStore = defineStore("albums", {
 		toast: () => useToastStore()
 	},
 	actions: {
+		clearAlbums(): void {
+			this.albums = {};
+			this.loadingAlbums = false;
+		},
+
 		async getOwnerId(category: string = "my", url: string = ""): Promise<number | null> {
 			try {
 				if (category === "my") return this.auth.id;

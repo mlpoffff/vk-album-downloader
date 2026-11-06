@@ -93,7 +93,7 @@ export default defineNuxtConfig({
 		server: false
 	},
 	devtools: {
-		enabled: false
+		enabled: true
 	},
 	telemetry: false,
 	compatibilityDate: "2026-10-01"

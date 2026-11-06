@@ -3,6 +3,8 @@ use tauri::{
     menu::{Menu, MenuItem},
     tray::TrayIconBuilder,
 	webview::PageLoadEvent,
+    Emitter,
+    Manager,
 };
 use std::time::Duration;
 
@@ -10,6 +12,30 @@ mod vk;
 
 pub fn run() {
     tauri::Builder::default()
+        .plugin(
+            tauri::plugin::Builder::<tauri::Wry, ()>::new("navigation-interceptor")
+                .on_navigation(|webview, url| {
+                    let host = url.host_str().unwrap_or("");
+                    let is_target_url = host == "oauth.vk.ru" && url.path() == "/blank.html";
+
+                    if !is_target_url {
+                        return true;
+                    }
+
+                    let original_url = url.as_str();
+
+                    if let Some(main_window) = webview.window().get_webview_window("main") {
+                        let _ = main_window.emit("vk-auth-callback", original_url);
+                        let _ = main_window.show();
+                        let _ = main_window.set_focus();
+                    }
+
+                    let _ = webview.window().close();
+
+                    false
+                })
+                .build(),
+        )
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_notification::init())
