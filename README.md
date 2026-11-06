@@ -1,49 +1,134 @@
-# 📸 VK Album Downloader
+<p align="center">
+  <img src="docs/icon.png" alt="Иконка VKAlbum" width="112">
+</p>
 
-### Приложение для скачивания альбомов фотографий из Вконтакте.
+<h1 align="center">VKAlbum</h1>
 
+<p align="center">
+  Десктопное приложение для скачивания фотоальбомов из VK.
+</p>
 
-## ⚠️ Важная информация ⚠️
-### **Приложение использует ваш [токен авторизации](https://id.vk.ru/about/business/go/docs/ru/vkid/latest/vk-id/connection/tokens/access-token#Kak-poluchit-token) в качестве доступа к API VK. Не передавайте его никому, в целях безопасности.**
-### **Если слишком часто получать новые токены авторизации, страница может быть заморожена и придется менять пароль:**
-<img src="docs/block.png" alt="Предупреждение о блокировке" width="300">
+<p align="center">
+  <a href="https://github.com/mlpoffff/vk-album-downloader/releases/latest">Скачать последнюю версию</a>
+  ·
+  <a href="https://github.com/mlpoffff/vk-album-downloader/issues">Сообщить о проблеме</a>
+</p>
 
-### При скачивании файлов не включайте\выключайте VPN, так как токен VK выдается под конкретный IP.
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/mlpoffff/vk-album-downloader?label=версия&color=1677ff" alt="Последний релиз">
+  <img src="https://img.shields.io/github/license/mlpoffff/vk-album-downloader?label=лицензия" alt="Лицензия MIT">
+  <img src="https://img.shields.io/badge/платформа-Windows%20%7C%20macOS%20%7C%20Linux-555" alt="Windows, macOS и Linux">
+</p>
 
+![Главный экран VKAlbum](docs/Success.png)
 
-## 📲 Инструкция по установке
-### 1. Скачать и установить версию для вашей ос https://github.com/mlpoffff/vk-album-downloader/releases/latest
-### - .dmg - MacOS
-> После установки приложения на MacOS перед первым запуском один раз выполните:
+## Возможности
+
+- скачивание собственных альбомов пользователя;
+- скачивание альбомов других пользователей и сообществ;
+- загрузка конкретного альбома по ссылке;
+- отображение прогресса и возможность отменить загрузку;
+- выбор папки для сохранения фотографий;
+- системные уведомления и звуковые сообщения о результате;
+- светлая и тёмная темы оформления.
+
+## Быстрый старт
+
+1. Откройте страницу [последнего релиза](https://github.com/mlpoffff/vk-album-downloader/releases/latest).
+2. Скачайте установщик для своей системы:
+   - `.exe` — Windows;
+   - `.dmg` — macOS;
+   - `.AppImage` или `.deb` — Linux.
+3. Установите и запустите VKAlbum.
+
+> [!NOTE]
+> Если macOS не разрешает открыть приложение, один раз выполните в терминале:
 >
-> ```xattr -c /Applications/VKAlbum.app```
-### - .exe - Windows
-### - Остальное - Linux
-### 2. Открыть установленное приложение
+> ```bash
+> xattr -c /Applications/VKAlbum.app
+> ```
 
+## Как пользоваться
 
-## 📄 Как пользоваться
-### 1. Нажмите кнопку "Получить ссылку"
-![1 шаг.png](docs/1%20%D1%88%D0%B0%D0%B3.png)
-### 2. Пройдите авторизацию в ВК
-![2 шаг.png](docs/2%20%D1%88%D0%B0%D0%B3.png)
-### 3. Скопируйте ссылку на страницу с ошибкой
-![3 шаг.png](docs/3%20%D1%88%D0%B0%D0%B3.png)
-### 4. Вставьте ссылку в поле ввода
-![4 шаг.png](docs/4%20%D1%88%D0%B0%D0%B3.png)
-### 5. Можете скачивать альбомы (альбомы сохраняются по пути /загрузки/vk_albums/название_альбома)
-![5 шаг.png](docs/5%20%D1%88%D0%B0%D0%B3.png)
+### 1. Авторизуйтесь через VK ID
 
+Для работы с альбомами приложению нужен токен доступа VK. Подробная инструкция с иллюстрациями находится в [docs/auth.md](docs/auth.md).
 
-## 🛠️ Инструкция по установке и запуску из исходников
-1. Скачать и распаковать архив https://github.com/mlpoffff/vk-album-downloader/archive/refs/heads/main.zip
-2. Команды:
-  * `pnpm install` - установка зависимостей
-  * `pnpm tauri:dev` - запуск дев сервера c tauri-приложением
-  * `pnpm tauri:build` - собирает tauri-приложение вместе с nuxt
-  * `pnpm tauri:build:debug` - собирает tauri-приложение вместе с nuxt в дебаг режиме
+> [!WARNING]
+> Токен авторизации — конфиденциальные данные. Не публикуйте его и не передавайте другим людям. Не переключайте VPN во время загрузки: VK может привязать токен к IP-адресу.
 
+### 2. Выберите папку сохранения
 
-## ❤️ Отдельное спасибо
-* [vkhost](https://github.com/vkhost) за [механизм получения токенов авторизации](https://github.com/vkhost/vkhost.github.io)
-* [MasyanyX](https://github.com/iMasyanyX) за [механизм скачивания из ВК](https://github.com/iMasyanyX/VKPhotoDownloader)
+Нажмите кнопку с иконкой папки в правом верхнем углу. Если папка не выбрана, фотографии сохраняются по умолчанию в:
+
+```text
+Загрузки/vk_albums/<название-альбома>/
+```
+
+### 3. Найдите и скачайте альбом
+
+В приложении доступны три режима:
+
+- **Мои альбомы** — альбомы авторизованного пользователя;
+- **Чужие альбомы** — альбомы пользователя или сообщества по ссылке;
+- **Альбом по ссылке** — загрузка конкретного альбома VK.
+
+Нажмите **«Скачать альбом»** на нужной карточке. Прогресс загрузки отображается прямо в интерфейсе, а после завершения приложение покажет уведомление.
+
+## Запуск из исходников
+
+### Требования
+
+- [Node.js 24.19.0](https://nodejs.org/);
+- [pnpm](https://pnpm.io/);
+- [Rust](https://www.rust-lang.org/tools/install) и Cargo;
+- системные зависимости [Tauri 2](https://v2.tauri.app/start/prerequisites/).
+
+### Установка и разработка
+
+```bash
+git clone https://github.com/mlpoffff/vk-album-downloader.git
+cd vk-album-downloader
+pnpm install
+pnpm tauri:dev
+```
+
+Команда `pnpm tauri:dev` запускает Nuxt и десктопное приложение Tauri в режиме разработки.
+
+### Сборка
+
+```bash
+# production-сборка приложения
+pnpm tauri:build
+
+# debug-сборка
+pnpm tauri:build:debug
+```
+
+Готовые артефакты появятся в `src-tauri/target/release/bundle/`.
+
+Полезные команды проекта:
+
+```bash
+pnpm lint       # проверка ESLint
+pnpm typecheck  # проверка TypeScript
+pnpm generate   # статическая сборка Nuxt
+```
+
+## Технологии
+
+- [Nuxt 4](https://nuxt.com/) и [Vue 3](https://vuejs.org/);
+- [Nuxt UI](https://ui.nuxt.com/) и [Pinia](https://pinia.vuejs.org/);
+- [Tauri 2](https://v2.tauri.app/) и Rust;
+- VK API `5.199`.
+
+## Благодарности
+
+- [vkhost](https://github.com/vkhost) — за механизм получения токена авторизации;
+- [MasyanyX](https://github.com/iMasyanyX) — за идею и механизм скачивания фотографий из VK.
+
+---
+
+<p align="center">
+  Сделано с ❤️ для удобного сохранения фотографий из VK
+</p>
