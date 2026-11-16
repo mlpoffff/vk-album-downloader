@@ -30,9 +30,9 @@
 
 1. Откройте страницу [последнего релиза](https://github.com/mlpoffff/vk-album-downloader/releases/latest).
 2. Скачайте установщик для своей системы:
-   - `.exe` — Windows;
+   - `.exe` или `.msi` — Windows;
    - `.dmg` — macOS;
-   - `.AppImage` или `.deb` — Linux.
+   - Остальное — Linux.
 3. Установите и запустите VKAlbum.
 
 > [!NOTE]
